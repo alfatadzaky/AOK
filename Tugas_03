@@ -1,0 +1,179 @@
+public class Main {
+    public static void main(String[] args) {
+        // Manipulasi kode pada kelas Kereta agar kode program di main class dapat berjalan
+        // Jangan ubah kedua objek dibawah ini! menambahkan objek diperbolehkan.
+        System.out.println("==========================================================");
+
+        Kereta komuter = new Kereta();
+        komuter.tambahTiket("Fadil Kotlin");
+        komuter.tambahTiket("Fajar Dart");
+        komuter.tambahTiket("Saiful HTML");
+        komuter.tampilkanTiket();
+
+        System.out.println();
+
+        //KAJJ memiliki parameter nama kereta dan jumlah tiket tersedia.
+        Kereta KAJJ = new Kereta("Jayabaya", 2);
+        KAJJ.tambahTiket("Aang", "Malang", "Surabaya Gubeng");
+        KAJJ.tambahTiket("Zuko", "Malang", "Sidoarjo");
+        KAJJ.tambahTiket("Kora", "Malang", "Surabaya Pasarturi");
+        KAJJ.tampilkanTiket();
+
+        //Nama method tambahTiket dan tampilkanTiket tidak perlu diubah, sesuaikan pada kelas Ticket dan Kereta!
+    }
+}
+
+public class Kereta {           //Kelas dengan nama Kereta
+    private String[] namaPenumpang;         // deklarasi array privat yang menyimpan nama penumpang
+    private String[] asal;                  // deklarasi array privat yang menyimpan asal keberangkatan penumpang
+    private String[] tujuan;                // deklarasi array privat yang menyimpan tujuan perjalanan penumpang
+    private Ticket tiket;                   // deklarasi objek privat dari kelas Ticket untuk mengelola tiket
+    private int batasTiketKomuter = 1000;   // deklarasi batas maksimal tiket kereta komuter
+
+    public Kereta() {           //Konstruktor kereta tanpa parameter
+        namaPenumpang = new String[]{};         // inisialisasi array namaPenumpang dengan array kosong
+        asal = new String[]{};                  // inisialisasi array asal dengan array kosong
+        tujuan = new String[]{};                // inisialisasi array tujuan dengan array kosong
+        tiket = new Ticket();                   // inisialisasi objek tiket dari kelas Ticket
+    }
+
+    public Kereta(String namaKereta, int jumlahTiket) {            //Konstruktor kereta dengan parameter
+        namaPenumpang = new String[jumlahTiket];            // inisialisasi array namaPenumpang sesuai jumlah tiket
+        asal = new String[jumlahTiket];                     // inisialisasi array asal sesuai jumlah tiket
+        tujuan = new String[jumlahTiket];                   // inisialisasi array tujuan sesuai jumlah tiket
+        tiket = new Ticket(namaKereta, jumlahTiket);        // inisialisasi objek tiket dari kelas Ticket dengan nama kereta dan jumlah tiket
+    }
+
+    public void tambahTiket(String namaPenumpang) {            //method tambahTiket dengan satu parameter
+        String[] newPenumpang = new String[this.namaPenumpang.length + 1];          // Membuat array baru dengan panjang yang lebih besar
+        String[] newAsal = new String[this.asal.length + 1];
+        String[] newTujuan = new String[this.tujuan.length + 1];
+
+        for (int i = 0; i < this.namaPenumpang.length; i++) {          // loop 'for'
+            newPenumpang[i] = this.namaPenumpang[i];        // Menyalin data dari array namaPenumpang lama ke array baru
+            newAsal[i] = this.asal[i];                      // Menyalin data dari array asal lama ke array baru
+            newTujuan[i] = this.tujuan[i];                  // Menyalin data dari array tujuan lama ke array baru
+        }
+
+        newPenumpang[this.namaPenumpang.length] = namaPenumpang;        // Menambahkan nama penumpang baru ke array baru
+        newAsal[this.asal.length] = "";                                 // Mengosongkan asal untuk penumpang baru (belum diisi)
+        newTujuan[this.tujuan.length] = "";                             // Mengosongkan tujuan untuk penumpang baru (belum diisi)
+
+        this.namaPenumpang = newPenumpang;          // Menetapkan array namaPenumpang baru
+        this.asal = newAsal;                        // Menetapkan array asal baru
+        this.tujuan = newTujuan;                    // Menetapkan array tujuan baru
+
+        if (tiket.getNamaPenumpang().length < batasTiketKomuter) {                  // Memeriksa jumlah tiket yang dipesan apakah melebihi batas
+            int sisaTiket = batasTiketKomuter - tiket.getNamaPenumpang().length;    // Menghitung sisa tiket yang tersedia
+            if (sisaTiket >= 1) {
+                System.out.println("Tiket berhasil dipesan");
+                System.out.println("==========================================================");
+            } else {
+                System.out.println("Kereta telah habis dipesan, silahkan cari jadwal keberangkatan lainnya");
+            }
+        } else {
+            System.out.println("Kereta telah habis dipesan, silahkan cari jadwal keberangkatan lainnya");
+        }
+
+        if (batasTiketKomuter - tiket.getNamaPenumpang().length < 30) {                                                     // Memeriksa apakah sisa tiket kurang dari 30
+            System.out.println("Sisa tiket Kereta Komuter: " + (batasTiketKomuter - tiket.getNamaPenumpang().length));      // Menampilkan sisa tiket
+        }
+    }
+
+    public void tambahTiket(String namaPenumpang, String asal, String tujuan) {         //method tambahTiket dengan tiga parameter
+        String[] newPenumpang = new String[this.namaPenumpang.length + 1];          // Membuat array baru dengan panjang yang lebih besar
+        String[] newAsal = new String[this.asal.length + 1];
+        String[] newTujuan = new String[this.tujuan.length + 1];
+
+        for (int i = 0; i < this.namaPenumpang.length; i++) {       // loop 'for'
+            newPenumpang[i] = this.namaPenumpang[i];            // Menyalin data dari array namaPenumpang lama ke array baru
+            newAsal[i] = this.asal[i];
+            newTujuan[i] = this.tujuan[i];
+        }
+
+        newPenumpang[this.namaPenumpang.length] = namaPenumpang;        // Menambahkan nama penumpang baru ke array baru
+        newAsal[this.asal.length] = asal;                               // Menambahkan asal keberangkatan penumpang baru ke array baru
+        newTujuan[this.tujuan.length] = tujuan;                         // Menambahkan tujuan perjalanan penumpang baru ke array baru
+
+        this.namaPenumpang = newPenumpang;          // Menetapkan array namaPenumpang yang baru
+        this.asal = newAsal;                        // Menetapkan array asal yang baru
+        this.tujuan = newTujuan;                    // Menetapkan array tujuan yang baru
+
+        if (asal.isEmpty() || tujuan.isEmpty()) {           // if else statement
+            System.out.println("Penumpang KAJJ wajib memiliki asal dan tujuan tiket.");
+        } else {
+            int sisaTiket = tiket.getNamaPenumpang().length;  // Mendapatkan jumlah tiket yang sudah dipesan
+            if (sisaTiket >= 1) {
+                System.out.println("Tiket berhasil dipesan Sisa tiket tersedia: " + sisaTiket);
+                System.out.println("==========================================================");
+            } else {
+                System.out.println("Kereta telah habis dipesan, silahkan cari jadwal keberangkatan lainnya");
+            }
+        }
+
+    }
+
+    public void tampilkanTiket() {
+        System.out.println("Daftar penumpang kereta api komuter:");
+        System.out.println("----------------------------");
+        for (int i = 0; i < this.namaPenumpang.length; i++) {
+            System.out.println("Nama: " + this.namaPenumpang[i]);        // Menampilkan nama penumpang
+            System.out.println("Asal: " + this.asal[i]);                 // Menampilkan asal keberangkatan penumpang
+            System.out.println("Tujuan: " + this.tujuan[i]);             // Menampilkan tujuan perjalanan penumpang
+            System.out.println("---------------------------------");
+        }
+    }
+
+    public String[] getNamaPenumpang() {
+        return this.namaPenumpang;      // Mendapatkan array namaPenumpang
+    }
+
+    public String[] getAsal() {
+        return this.asal;               // Mendapatkan array asal
+    }
+
+    public String[] getTujuan() {
+        return this.tujuan;             // Mendapatkan array tujuan
+    }
+}
+
+public class Ticket {
+    private String[] namaPenumpang;
+    private String[] asal;
+    private String[] tujuan;
+
+    public Ticket(){
+        namaPenumpang = new String[]{};
+    }
+
+    public Ticket(String namaKereta, int jumlahTiket) {
+        namaPenumpang = new String[]{};
+        asal = new String[]{};
+        tujuan = new String[]{};
+
+    }
+    public void setNamaPenumpang(String[] newPenumpang){
+        this.namaPenumpang = newPenumpang;
+    }
+
+    public String[] getNamaPenumpang(){
+        return this.namaPenumpang;
+    }
+
+    public void setAsal(String[] newAsal) {
+        this.asal = newAsal;
+    }
+
+    public String[] getAsal() {
+        return this.asal;
+    }
+
+    public void setTujuan(String[] newTujuan) {
+        this.tujuan = newTujuan;
+    }
+
+    public String[] getTujuan() {
+        return this.tujuan;
+    }
+
+}
