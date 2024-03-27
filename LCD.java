@@ -1,0 +1,48 @@
+public class LCD {
+    private String Status;
+    private int Volume;
+    private int Brightness;
+    private String Cable;
+
+    public void turnOff() {
+        this.Status = "Turn off";
+    }
+
+    public void turnOn() {
+        this.Status = "Turn on";
+    }
+
+    public void Freeze() {
+        this.Status = "Freeze";
+    }
+
+    public void setVolume(int setVolume) {
+        this.Volume = setVolume;
+    }
+
+    public void volumeUp() {
+        Volume++;
+    }
+
+    public void setBrightness(int setBrightness) {
+        this.Brightness = setBrightness;
+    }
+
+    public void brightnessDown() {
+        Brightness--;
+    }
+
+    public void setCable(int option) {
+        String kabel[] = { "VGA", "DVI", "HDMI", "DisplayPort" };
+
+        this.Cable = kabel[option];
+
+    }
+
+    public void displayMessage() {
+        System.out.println("LCD Status: " + Status);
+        System.out.println("Volume: " + Volume);
+        System.out.println("Brightness: " + Brightness);
+        System.out.println("Cable: " + Cable);
+    }
+}
