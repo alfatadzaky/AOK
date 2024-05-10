@@ -1,0 +1,223 @@
+// Definisi kelas CAT1 yang mewarisi sifat-sifat dari kelas TiketKonser
+class CAT1 extends TiketKonser {
+    // Override method getNama() yang ada di kelas induk (TiketKonser)
+    @Override
+    String getNama() {
+        // Mengembalikan nilai string "CAT 1"
+        return "CAT 1";
+    }
+
+    // Override method getHarga() yang ada di kelas induk (TiketKonser)
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai double 1000000, yang merupakan harga untuk CAT 1
+        return 1000000;
+    }
+}
+
+
+// Definisi kelas CAT8 yang mewarisi sifat-sifat dari kelas TiketKonser
+class CAT8 extends TiketKonser {
+    // Override method getNama() yang ada di kelas induk (TiketKonser)
+    @Override
+    String getNama() {
+        // Mengembalikan nilai string "CAT 8"
+        return "CAT 8";
+    }
+
+    // Override method getHarga() yang ada di kelas induk (TiketKonser)
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai double 500000, yang merupakan harga untuk CAT 8
+        return 500000;
+    }
+}
+
+
+// Definisi kelas FESTIVAL yang mewarisi sifat-sifat dari kelas TiketKonser
+class FESTIVAL extends TiketKonser {
+    // Override method getNama() yang ada di kelas induk (TiketKonser)
+    @Override
+    String getNama() {
+        // Mengembalikan nilai string "FESTIVAL"
+        return "FESTIVAL";
+    }
+
+    // Override method getHarga() yang ada di kelas induk (TiketKonser)
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai double 750000, yang merupakan harga untuk FESTIVAL
+        return 750000;
+    }
+}
+
+
+// Deklarasi interface HargaTiket
+interface HargaTiket {
+    // Deklarasi method getHarga() yang harus diimplementasikan oleh kelas yang
+    // mengimplementasikan interface ini
+    double getHarga();
+}
+
+
+// Import library yang dibutuhkan
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+// Kelas utama yang menjalankan program
+public class Main {
+    public static void main(String[] args) {
+        // Inisialisasi objek Scanner untuk input dari user
+        Scanner scanner = new Scanner(System.in);
+
+        // Menampilkan pesan selamat datang
+        System.out.println("Selamat datang di Pemesanan Tiket!");
+        System.out.print("Masukkan nama pemesan: ");
+        String namaPemesan = scanner.nextLine();
+
+        // Menampilkan pilihan jenis tiket
+        System.out.println("Pilih jenis tiket:");
+        System.out.println("1. CAT 8");
+        System.out.println("2. CAT 1");
+        System.out.println("3. FESTIVAL");
+        System.out.println("4. VIP");
+        System.out.println("5. UNLIMITED EXPERIENCE");
+
+        System.out.print("Masukkan pilihan: ");
+        int pilihan = scanner.nextInt();
+
+        TiketKonser tiket = null;
+
+        // Memilih jenis tiket berdasarkan pilihan user
+        switch (pilihan) {
+            case 1:
+                tiket = new CAT8();
+                break;
+            case 2:
+                tiket = new CAT1();
+                break;
+            case 3:
+                tiket = new FESTIVAL();
+                break;
+            case 4:
+                tiket = new VIP();
+                break;
+            case 5:
+                tiket = new VVIP();
+                break;
+            default:
+                System.out.println("Pilihan tidak valid.");
+                System.exit(0);
+        }
+
+        // Membuat objek PemesananTiket dan menampilkan detail pesanan
+        PemesananTiket pemesanan = new PemesananTiket(namaPemesan, tiket);
+        pemesanan.tampilkanDetailPesanan();
+    }
+
+    // Method untuk menggenerate kode booking secara acak
+    public static String generateKodeBooking() {
+        StringBuilder sb = new StringBuilder();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        int length = 8;
+
+        for (int i = 0; i < length; i++) {
+            int index = (int) (Math.random() * characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+    // Method untuk mendapatkan tanggal saat ini dalam format dd-MM-yyyy
+    public static String getCurrentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date currentDate = new Date();
+        return dateFormat.format(currentDate);
+    }
+}
+
+
+// Definisi kelas PemesananTiket
+class PemesananTiket {
+    // Deklarasi variabel-variabel instance
+    private String namaPemesan;
+    private TiketKonser tiket;
+    private String kodeBooking;
+    private String tanggalPemesanan;
+
+    // Konstruktor PemesananTiket yang menerima parameter namaPemesan dan tiket
+    public PemesananTiket(String namaPemesan, TiketKonser tiket) {
+        this.namaPemesan = namaPemesan;
+        this.tiket = tiket;
+        // Memanggil method generateKodeBooking() yang ada di kelas Main untuk
+        // menggenerate kode booking
+        this.kodeBooking = Main.generateKodeBooking();
+        // Memanggil method getCurrentDate() yang ada di kelas Main untuk mendapatkan
+        // tanggal saat ini
+        this.tanggalPemesanan = Main.getCurrentDate();
+    }
+
+    // Method untuk menampilkan detail pesanan
+    public void tampilkanDetailPesanan() {
+        System.out.println("- - - - - Detail Pemesanan - - - - -");
+        System.out.println("Nama Pemesan: " + namaPemesan);
+        System.out.println("Kode Booking: " + kodeBooking);
+        System.out.println("Tanggal Pesanan: " + tanggalPemesanan);
+        System.out.println("Tiket yang dipesan: " + tiket.getNama());
+        System.out.println("Total Harga: " + tiket.getHarga() + " USD");
+    }
+}
+
+
+// Deklarasi kelas abstrak TiketKonser yang mengimplementasikan interface HargaTiket
+abstract class TiketKonser implements HargaTiket {
+    // Deklarasi method abstrak getNama() yang harus diimplementasikan oleh subclass
+    abstract String getNama();
+
+    // Override method getHarga() yang ada di interface HargaTiket
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai default 0, subclass akan mengimplementasikan dengan harga
+        // yang sesuai
+        return 0;
+    }
+}
+
+
+// Definisi kelas VIP yang mewarisi sifat-sifat dari kelas TiketKonser
+class VIP extends TiketKonser {
+    // Override method getNama() yang ada di kelas induk (TiketKonser)
+    @Override
+    String getNama() {
+        // Mengembalikan nilai string "VIP"
+        return "VIP";
+    }
+
+    // Override method getHarga() yang ada di kelas induk (TiketKonser)
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai double 2000000, yang merupakan harga untuk VIP
+        return 2000000;
+    }
+}
+
+
+// Definisi kelas VVIP yang mewarisi sifat-sifat dari kelas TiketKonser
+class VVIP extends TiketKonser {
+    // Override method getNama() yang ada di kelas induk (TiketKonser)
+    @Override
+    String getNama() {
+        // Mengembalikan nilai string "UNLIMITED EXPERIENCE"
+        return "UNLIMITED EXPERIENCE";
+    }
+
+    // Override method getHarga() yang ada di kelas induk (TiketKonser)
+    @Override
+    public double getHarga() {
+        // Mengembalikan nilai double 11000000, yang merupakan harga untuk UNLIMITED
+        // EXPERIENCE
+        return 11000000;
+    }
+}
